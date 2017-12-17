@@ -31,7 +31,7 @@ jobs:
          docker images -a
          docker push docker.io/danka/go-app:latest
          docker images -a
-         docker run --publish 6060:8080 -d --name test docker.io/danka/go-app:latest
+         docker run --publish 6060:8080 -d --name test1 docker.io/danka/go-app:latest
          curl http://localhost:6060/ 
      - run: |
          echo $SERVICE_KEY > key.txt
