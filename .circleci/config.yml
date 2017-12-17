@@ -43,8 +43,8 @@ jobs:
          sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone $COMPUTE_ZONE
          CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
          sudo /opt/google-cloud-sdk/bin/gcloud  --quiet container clusters get-credentials $CLUSTER_NAME
-         kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app:latest
-         kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app
+         sudo kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app:latest
+         sudo kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app
 
 
 
