@@ -30,7 +30,9 @@ jobs:
      - run: |
          docker images -a
          docker push docker.io/danka/go-app:latest
-         docker tag danka/go-app:latest gcr.io/${PROJECT_ID}/go-app:latest 
+         docker images -a
+         docker run --publish 6060:8080 -d --name test docker.io/danka/go-app:latest
+         curl http://localhost:6060/ 
      - run: |
          echo $SERVICE_KEY > key.txt
          base64 -i key.txt -d > ${HOME}/gcloud-service-key.json
@@ -43,9 +45,7 @@ jobs:
          sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone $COMPUTE_ZONE
          CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
          sudo /opt/google-cloud-sdk/bin/gcloud  --quiet container clusters get-credentials $CLUSTER_NAME
-         sudo /opt/google-cloud-sdk/bin/gcloud container images delete -q gcr.io/golang-189122/go-app:latest --force-delete-tags
-         sudo /opt/google-cloud-sdk/bin/gcloud docker -- push gcr.io/${PROJECT_ID}/go-app:latest
-         sudo /opt/google-cloud-sdk/bin/kubectl set image deployment/snowflake-app snowflake-app=gcr.io/${PROJECT_ID}/go-app:latest
-         sudo /opt/google-cloud-sdk/bin/kubectl set image deployment/snowflake-app snowflake-app=gcr.io/${PROJECT_ID}/go-app
+         sudo /opt/google-cloud-sdk/bin/kubectl set image deployment/snowflake-app docker.io/danka/go-app:latest
+         sudo /opt/google-cloud-sdk/bin/kubectl set image deployment/snowflake-app docker.io/danka/go-app
 
 
