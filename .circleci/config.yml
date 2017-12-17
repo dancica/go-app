@@ -31,7 +31,8 @@ jobs:
          docker images -a
          docker push docker.io/danka/go-app:latest
          docker images -a
-         docker run --publish 070:8080 -d --name test1 docker.io/danka/go-app:latest
+         docker stop $(docker ps -a | grep latest  | awk '{print $1}')
+         docker run --publish 7070:8080 -d --name test1 docker.io/danka/go-app:latest
          curl http://localhost:7070/ 
      - run: |
          echo $SERVICE_KEY > key.txt
