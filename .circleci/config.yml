@@ -12,10 +12,6 @@ jobs:
         - master
    machine: true
    dependencies:
-   auth:
-    #Put the contents of keyfile.json into an environment variable for the build called GCR_CREDS, which is then passed in.
-      username: g
-      password: $GOOGLE_AUTH 
     override:
      - docker info
      - docker build --rm=false -t danka/go-app:latest .
