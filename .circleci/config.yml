@@ -32,6 +32,8 @@ jobs:
      - run: |
          echo $g > key.txt
          base64 -i key.txt -d > ${HOME}/gcloud-service-key.json
+         sudo /opt/google-cloud-sdk/bin/gcloud components update
+         sudo /opt/google-cloud-sdk/bin/gcloud components install kubectl
          sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account ${ACCOUNT_ID} --key-file ${HOME}/gcloud-service-key.json
          sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_ID
          sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
