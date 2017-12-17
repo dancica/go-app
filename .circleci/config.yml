@@ -30,6 +30,8 @@ jobs:
           name: test
           command: docker push danka/go-app:latest
      - run: |
+         sudo ntpdate -s ntp.ubuntu.com
+         date
          echo $SERVICE_KEY > key.txt
          base64 -i key.txt -d > ${HOME}/gcloud-service-key.json
          sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
@@ -40,7 +42,6 @@ jobs:
          sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
          sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone $COMPUTE_ZONE
          sudo /opt/google-cloud-sdk/bin/gcloud config set container/use_client_certificate True          
-         date
          sudo /opt/google-cloud-sdk/bin/gcloud  --quiet container clusters get-credentials $CLUSTER_NAME
          kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app:latest
          kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app
