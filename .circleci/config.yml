@@ -23,14 +23,14 @@ jobs:
          CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go-app .
          docker build -t danka/go-app:latest .
          docker run --publish 6060:8080 -d --name test danka/go-app
-         docker tag danka/go-app:latest gcr.io/${PROJECT_ID}/go-app:latest
+ #        docker tag danka/go-app:latest gcr.io/${PROJECT_ID}/go-app:latest
          sudo timedatectl set-timezone Europe/Belgrade
      - run:
           name: test
           command: "curl http://localhost:6060/"
-     - run:
-          name: test
-          command: docker push danka/go-app:latest
+     - run: |
+         docker push docker.io/danka/go-app:latest
+         docker tag docker.io/danka/go-app:latest gcr.io/${PROJECT_ID}/go-app:latest 
      - run: |
          echo $SERVICE_KEY > key.txt
          base64 -i key.txt -d > ${HOME}/gcloud-service-key.json
