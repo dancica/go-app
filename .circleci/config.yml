@@ -1,11 +1,21 @@
 version: 2
 jobs:
  build:
+   environment:
+     PROJECT_ID: golang-189122
+     CLUSTER_NAME: snowflake-cl
+     COMPUTE_ZONE: europe-west3-a
+     DEPLOYMENT_NAME: snowflake-app
+     CONTAINER_NAME: snowflake-app
    branches:
       only:
         - master
    machine: true
    dependencies:
+   auth:
+    #Put the contents of keyfile.json into an environment variable for the build called GCR_CREDS, which is then passed in.
+      username: g
+      password: $GOOGLE_AUTH 
     override:
      - docker info
      - docker build --rm=false -t danka/go-app:latest .
@@ -23,3 +33,16 @@ jobs:
      - run:
           name: test
           command: docker push danka/go-app:latest
+     - run: |
+         echo $g > key.txt
+         base64 -i key.txt -d > ${HOME}/gcloud-service-key.json
+         sudo /opt/google-cloud-sdk/bin/gcloud auth activate-service-account ${ACCOUNT_ID} --key-file ${HOME}/gcloud-service-key.json
+         sudo /opt/google-cloud-sdk/bin/gcloud config set project $PROJECT_ID
+         sudo /opt/google-cloud-sdk/bin/gcloud --quiet config set container/cluster $CLUSTER_NAME
+         sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone $COMPUTE_ZONE
+         sudo /opt/google-cloud-sdk/bin/gcloud --quiet container clusters get-credentials $CLUSTER_NAME
+         kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app:latest
+         kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app
+
+
+
