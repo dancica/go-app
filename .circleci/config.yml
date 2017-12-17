@@ -23,7 +23,6 @@ jobs:
          CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go-app .
          docker build -t danka/go-app:latest .
          docker run --publish 6060:8080 -d --name test danka/go-app
- #        docker tag danka/go-app:latest gcr.io/${PROJECT_ID}/go-app:latest
          sudo timedatectl set-timezone Europe/Belgrade
      - run:
           name: test
