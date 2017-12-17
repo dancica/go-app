@@ -23,8 +23,8 @@ jobs:
          CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go-app .
          docker build -t danka/go-app:latest .
          docker run --publish 6060:8080 -d --name test danka/go-app
+         docker tag danka/go-app:latest gcr.io/${PROJECT_ID}/go-app:latest
          sudo timedatectl set-timezone Europe/Belgrade
-         sudo date 
      - run:
           name: test
           command: "curl http://localhost:6060/"
@@ -43,8 +43,8 @@ jobs:
          sudo /opt/google-cloud-sdk/bin/gcloud config set compute/zone $COMPUTE_ZONE
          CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
          sudo /opt/google-cloud-sdk/bin/gcloud  --quiet container clusters get-credentials $CLUSTER_NAME
-         sudo /opt/google-cloud-sdk/bin/kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app:latest
-         sudo /opt/google-cloud-sdk/bin/kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app
+         sudo /opt/google-cloud-sdk/bin/gcloud docker -- push gcr.io/${PROJECT_ID}/go-app:latest
+         sudo /opt/google-cloud-sdk/bin/kubectl set image deployment/snowflake-app snowflake-app=gcr.io/${PROJECT_ID}/go-app:latest
 
 
 
