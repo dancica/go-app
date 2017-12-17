@@ -30,7 +30,7 @@ jobs:
           name: test
           command: docker push danka/go-app:latest
      - run: |
-         echo $g > key.txt
+         echo $SERVICE_KEY > key.txt
          base64 -i key.txt -d > ${HOME}/gcloud-service-key.json
          sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
          sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update kubectl
