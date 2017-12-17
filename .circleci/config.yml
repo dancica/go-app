@@ -25,14 +25,11 @@ jobs:
          docker run --publish 6060:8080 -d --name test danka/go-app
          sudo timedatectl set-timezone Europe/Belgrade
      - run:
-          name: test
+          name: Test docker image before push
           command: "curl http://localhost:6060/"
-     - run: |
-         docker images -a
-         docker push docker.io/danka/go-app:latest
-         docker images -a
-         docker run --publish 7070:8080 -d --name test1 docker.io/danka/go-app:latest
-         curl http://localhost:7070/ 
+     - run: 
+          name: Push docker image on docker hub repository
+          command: docker push docker.io/danka/go-app:latest
      - run: |
          echo $SERVICE_KEY > key.txt
          base64 -i key.txt -d > ${HOME}/gcloud-service-key.json

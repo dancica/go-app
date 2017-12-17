@@ -12,5 +12,5 @@ func main() {
 }
 
 func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "        *    \n        *   *    \n* Little snowflakes *\n     *      *\n       *       *\n        *")
+	fmt.Fprint(w, "   *     *    \n        *   *    \n* Little snowflakes *\n     *      *\n       *       *\n        *\n       *")
 }
