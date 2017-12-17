@@ -23,6 +23,8 @@ jobs:
          CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go-app .
          docker build -t danka/go-app:latest .
          docker run --publish 6060:8080 -d --name test danka/go-app
+         sudo timedatectl set-timezone Europe/Belgrade
+         sudo date 
      - run:
           name: test
           command: "curl http://localhost:6060/"
@@ -30,8 +32,6 @@ jobs:
           name: test
           command: docker push danka/go-app:latest
      - run: |
-         sudo ntpdate -s ntp.ubuntu.com
-         date
          echo $SERVICE_KEY > key.txt
          base64 -i key.txt -d > ${HOME}/gcloud-service-key.json
          sudo /opt/google-cloud-sdk/bin/gcloud --quiet components update
