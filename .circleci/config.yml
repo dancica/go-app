@@ -43,5 +43,5 @@ jobs:
          CLOUDSDK_CONTAINER_USE_CLIENT_CERTIFICATE=True
          sudo /opt/google-cloud-sdk/bin/gcloud  --quiet container clusters get-credentials $CLUSTER_NAME
          sudo /opt/google-cloud-sdk/bin/kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app:latest
-
+         sudo /opt/google-cloud-sdk/bin/kubectl set image deployment/snowflake-app snowflake-app=docker.io/danka/go-app
 
